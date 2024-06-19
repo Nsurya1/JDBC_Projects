@@ -1,0 +1,56 @@
+package jdbc;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+public class jdbcBasic05 {
+ public static void main (String [] args) {
+	 StudentDAO dao = new StudentDAO();
+	 
+	 Student s1 = dao.getStudent(103);
+	
+	 System.out.println(s1.name);
+ }
+} 
+
+class StudentDAO{
+	public Student getStudent(int rollno) {
+		try {
+			
+			String query = "select name from student where id = "+rollno;
+		Student s = new Student();
+		s.rollno = rollno;
+		
+		 Class.forName("com.mysql.cj.jdbc.Driver");
+		
+		Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/collage", "root", "nitesh@123");
+		Statement st = con.createStatement();
+		
+	    ResultSet rs = st.executeQuery(query);
+	    
+	    rs.next();
+	    String name = rs.getString("1");
+	    s.name = name;
+		
+		return s;
+		 // Close the statement and connection
+	    
+	  }catch (ClassNotFoundException e) {
+	      System.err.println("MySQL JDBC Driver not found. Include the JDBC library in your classpath.");
+//	      e.printStackTrace();
+	  } catch (SQLException e) {
+	      System.err.println("SQL error occurred.");
+//	      e.printStackTrace();
+	  }
+		return null;
+	
+	}
+}
+
+class Student{
+	int rollno;
+	String name;
+}

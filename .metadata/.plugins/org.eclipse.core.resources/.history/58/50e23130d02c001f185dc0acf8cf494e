@@ -1,0 +1,6 @@
+package HotelResevation;
+
+public class HotelResevationSystem {
+ private static final String url = "jdbc:mysql://localhost:3306/hotel_db";
+ 
+}
